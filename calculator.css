@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Heebo:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap');
 
 :root {
     color: #f6f4ef;
     background: #182231;
-    font-family: "DM Sans", sans-serif;
+    font-family: "Heebo", "DM Sans", sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -22,15 +22,15 @@ body {
 
 .back-link {
     color: #aebdca;
-    font-size: .9rem;
+    font-size: .95rem;
     text-decoration: none;
 }
 
 .back-link:hover { color: #f6f4ef; }
 
 .project-intro { max-width: 680px; padding: 74px 0 58px; }
-.eyebrow, .note-label { color: #ff8367; font-size: .78rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
-.project-intro h1 { margin: 18px 0 16px; font: 600 clamp(3.2rem, 8vw, 6rem) / .92 "Space Grotesk", sans-serif; letter-spacing: -.06em; }
+.eyebrow, .note-label { color: #ff8367; font-size: .84rem; font-weight: 700; letter-spacing: 0; }
+.project-intro h1 { margin: 18px 0 16px; font: 700 clamp(3.2rem, 8vw, 6rem) / .92 "Heebo", sans-serif; letter-spacing: 0; }
 .intro-copy { max-width: 520px; margin: 0; color: #aebdca; font-size: 1.08rem; line-height: 1.65; }
 
 .calculator-layout { display: grid; grid-template-columns: minmax(280px, 360px) 1fr; align-items: start; gap: clamp(38px, 8vw, 120px); }
