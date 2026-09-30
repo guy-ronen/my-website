@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Calculator | Guy Ronen</title>
+    <link rel="stylesheet" href="calculator.css">
+</head>
+<body>
+    <main class="page-shell">
+        <a class="back-link" href="index.html">← Back to portfolio</a>
+
+        <section class="project-intro">
+            <p class="eyebrow">Interactive project / 01</p>
+            <h1>Modern Calculator</h1>
+            <p class="intro-copy">A small, focused browser tool translated from a Python Tkinter application into a responsive web experience.</p>
+        </section>
+
+        <section class="calculator-layout" aria-label="Calculator project">
+            <div class="calculator" aria-label="Calculator">
+                <div class="display-area" aria-live="polite">
+                    <span id="operation-display" class="operation-display"></span>
+                    <output id="display" class="display">0</output>
+                </div>
+                <div class="button-area" aria-label="Calculator buttons">
+                    <button class="button button-clear" data-action="clear">Clear</button>
+                    <button class="button button-operator" data-operator="/">/</button>
+                    <button class="button button-operator" data-operator="*">*</button>
+                    <button class="button button-operator" data-operator="-">-</button>
+                    <button class="button" data-number="7">7</button>
+                    <button class="button" data-number="8">8</button>
+                    <button class="button" data-number="9">9</button>
+                    <button class="button button-operator" data-operator="+">+</button>
+                    <button class="button" data-number="4">4</button>
+                    <button class="button" data-number="5">5</button>
+                    <button class="button" data-number="6">6</button>
+                    <button class="button button-equals" data-action="calculate">=</button>
+                    <button class="button" data-number="1">1</button>
+                    <button class="button" data-number="2">2</button>
+                    <button class="button" data-number="3">3</button>
+                    <button class="button" data-number="0">0</button>
+                    <button class="button" data-action="decimal">.</button>
+                </div>
+            </div>
+
+            <aside class="project-notes">
+                <span class="note-label">What it demonstrates</span>
+                <ul>
+                    <li>State management with JavaScript</li>
+                    <li>Responsive interface design</li>
+                    <li>Keyboard and button controls</li>
+                    <li>Division-by-zero handling</li>
+                </ul>
+            </aside>
+        </section>
+    </main>
+    <script src="calculator.js"></script>
+</body>
+</html>
