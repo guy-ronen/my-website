@@ -1,0 +1,50 @@
+:root {
+  color-scheme: light;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #202124;
+  background: #f7f5f0;
+  --accent: #6b55d9;
+  --border: #e6e1d8;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; background: #f7f5f0; }
+body { overscroll-behavior: none; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+.app-shell { width: min(100%, 1100px); min-height: 100vh; margin: auto; padding: env(safe-area-inset-top) 18px env(safe-area-inset-bottom); }
+.topbar { display: flex; align-items: center; gap: 14px; min-height: 76px; }
+h1 { flex: 1; margin: 0; font-size: clamp(24px, 4vw, 34px); }
+.icon-button, .primary-button, .tool-button { border: 0; border-radius: 12px; min-height: 42px; padding: 8px 14px; }
+.icon-button { background: transparent; font-size: 34px; line-height: 1; }
+.primary-button { background: var(--accent); color: white; font-size: 24px; min-width: 46px; }
+.tool-button { background: #eeeae2; color: #38342e; }
+.tool-button.active { background: #ded7ff; color: #4a37a5; }
+.card-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.card { position: relative; border: 1px solid var(--border); border-radius: 18px; background: white; min-height: 112px; padding: 20px; box-shadow: 0 2px 8px #2c231008; }
+.card-open { width: 100%; border: 0; background: transparent; text-align: right; padding: 0; }
+.card-title { font-weight: 700; font-size: 18px; }
+.card-meta { color: #817a70; margin-top: 9px; font-size: 14px; }
+.delete-button { position: absolute; left: 12px; top: 12px; border: 0; background: transparent; color: #a39b90; font-size: 18px; }
+.empty-state { text-align: center; padding: 18vh 20px; color: #817a70; }
+.empty-state h2 { color: #3b3832; }
+.empty-icon { margin: auto; width: 64px; height: 64px; display: grid; place-items: center; border-radius: 20px; background: #e8e2ff; color: var(--accent); font-size: 30px; }
+.hidden { display: none !important; }
+.editor-screen { min-height: calc(100vh - 76px); display: flex; flex-direction: column; gap: 12px; }
+.toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.tool-group { display: flex; gap: 6px; }
+.color-control, .width-control { display: flex; align-items: center; gap: 7px; background: white; border: 1px solid var(--border); border-radius: 12px; padding: 7px 10px; }
+.color-control input { width: 30px; height: 28px; border: 0; padding: 0; }
+.paper-wrap { flex: 1; min-height: 65vh; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; background: white; box-shadow: 0 3px 14px #2c23100d; }
+#drawingCanvas { display: block; width: 100%; height: 100%; min-height: 65vh; touch-action: none; cursor: crosshair; }
+.dialog-backdrop { position: fixed; inset: 0; display: grid; place-items: center; padding: 20px; background: #201b2a66; }
+.dialog { width: min(100%, 390px); padding: 24px; border-radius: 18px; background: white; box-shadow: 0 12px 40px #0003; }
+.dialog h2 { margin-top: 0; }
+.dialog input { width: 100%; border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
+.dialog-actions { display: flex; justify-content: flex-start; gap: 8px; margin-top: 18px; }
+@media (max-width: 600px) {
+  .app-shell { padding-left: 12px; padding-right: 12px; }
+  .toolbar { gap: 6px; }
+  .width-control { flex: 1; }
+  .width-control input { width: 100%; }
+}
