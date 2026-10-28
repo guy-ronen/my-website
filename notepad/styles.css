@@ -20,7 +20,7 @@ h1 { flex: 1; margin: 0; font-size: clamp(24px, 4vw, 34px); }
 .primary-button { background: var(--accent); color: white; font-size: 24px; min-width: 46px; }
 .tool-button { background: #eeeae2; color: #38342e; }
 .tool-button.active { background: #ded7ff; color: #4a37a5; }
-.tool-button[data-tool="eraser"].active { background: #ffe0db; color: #a53d2c; }
+.tool-button.eraser-active { background: #ffe0db; color: #a53d2c; }
 .card-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
 .card { position: relative; border: 1px solid var(--border); border-radius: 18px; background: white; min-height: 112px; padding: 20px; box-shadow: 0 2px 8px #2c231008; }
 .card-open { width: 100%; border: 0; background: transparent; text-align: right; padding: 0; }

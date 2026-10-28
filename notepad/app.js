@@ -150,10 +150,12 @@ $("newItemForm").onsubmit = (event) => {
   save(); $("dialog").classList.add("hidden");
   state.dialogMode === "notebook" ? renderNotebooks() : renderPages();
 };
-document.querySelectorAll("[data-tool]").forEach((button) => button.onclick = () => {
-  state.tool = button.dataset.tool;
-  document.querySelectorAll("[data-tool]").forEach((item) => item.classList.toggle("active", item === button));
-});
+$("toolToggle").onclick = () => {
+  state.tool = state.tool === "pen" ? "eraser" : "pen";
+  $("toolToggle").textContent = state.tool === "pen" ? "עט" : "מחק";
+  $("toolToggle").classList.toggle("active", state.tool === "pen");
+  $("toolToggle").classList.toggle("eraser-active", state.tool === "eraser");
+};
 $("exportButton")?.addEventListener("click", () => window.print());
 $("importButton")?.addEventListener("click", () => $("pdfImporter").click());
 $("pdfImporter").addEventListener("change", (event) => {

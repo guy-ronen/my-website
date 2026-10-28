@@ -36,10 +36,7 @@
 
     <section id="editorScreen" class="screen editor-screen hidden">
       <div class="toolbar" aria-label="כלי כתיבה">
-        <div class="tool-group">
-          <button class="tool-button active" data-tool="pen">עט</button>
-          <button class="tool-button" data-tool="eraser">מחק</button>
-        </div>
+        <button id="toolToggle" class="tool-button active" type="button">עט</button>
         <label class="color-control">צבע <input id="colorPicker" type="color" value="#202124"></label>
         <label class="width-control">עובי <input id="widthPicker" type="range" min="1" max="18" value="4"></label>
         <button id="clearButton" class="tool-button">ניקוי דף</button>
