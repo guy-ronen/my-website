@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f5f0">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+  <title>NotePad</title>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <button id="backButton" class="icon-button hidden" aria-label="חזרה">‹</button>
+      <h1 id="screenTitle">המחברות שלי</h1>
+      <button id="addButton" class="primary-button">＋</button>
+    </header>
+    <section id="notebooksScreen" class="screen"><div id="notebooksList" class="card-list"></div><div id="emptyNotebooks" class="empty-state hidden"><div class="empty-icon">✎</div><h2>אין עדיין מחברות</h2><p>צרו מחברת כדי להתחיל לכתוב.</p></div></section>
+    <section id="pagesScreen" class="screen hidden"><div id="pagesList" class="card-list"></div><div id="emptyPages" class="empty-state hidden"><div class="empty-icon">＋</div><h2>אין עדיין דפים</h2><p>לחצו על ＋ כדי ליצור דף חדש.</p></div></section>
+    <section id="editorScreen" class="screen editor-screen hidden"><div class="toolbar" aria-label="כלי כתיבה"><div class="tool-group"><button class="tool-button active" data-tool="pen">עט</button><button class="tool-button" data-tool="eraser">מחק</button></div><label class="color-control">צבע <input id="colorPicker" type="color" value="#202124"></label><label class="width-control">עובי <input id="widthPicker" type="range" min="1" max="18" value="4"></label><button id="clearButton" class="tool-button">ניקוי דף</button></div><div class="paper-wrap"><canvas id="drawingCanvas"></canvas></div></section>
+  </main>
+  <div id="dialog" class="dialog-backdrop hidden"><form id="newItemForm" class="dialog" autocomplete="off"><h2 id="dialogTitle">מחברת חדשה</h2><input id="itemName" required maxlength="80" placeholder="שם"><div class="dialog-actions"><button type="button" id="cancelDialog" class="tool-button">ביטול</button><button type="submit" class="primary-button">יצירה</button></div></form></div>
+  <script src="app.js"></script>
+</body>
+</html>
