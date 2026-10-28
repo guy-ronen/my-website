@@ -70,6 +70,9 @@ function openPage(id) {
   state.pageId = id;
   state.drawing = currentPage()?.drawing || [];
   $("screenTitle").textContent = currentPage()?.title || "דף";
+  $("paperWrap").dataset.paper = currentPage()?.paper || "blank";
+  $("paperWrap").classList.toggle("imported-pdf", Boolean(currentPage()?.pdfData));
+  renderImportedPDF();
   show("editorScreen");
   requestAnimationFrame(resizeCanvas);
 }
@@ -77,6 +80,8 @@ function addItem() {
   state.dialogMode = state.notebookId ? "page" : "notebook";
   $("dialogTitle").textContent = state.dialogMode === "page" ? "דף חדש" : "מחברת חדשה";
   $("itemName").placeholder = state.dialogMode === "page" ? "שם הדף" : "שם המחברת";
+  $("pageTypeField").classList.toggle("hidden", state.dialogMode !== "page");
+  $("pageType").value = "blank";
   $("itemName").value = "";
   $("dialog").classList.remove("hidden");
   setTimeout(() => $("itemName").focus(), 0);
@@ -141,7 +146,7 @@ $("newItemForm").onsubmit = (event) => {
   const title = $("itemName").value.trim();
   if (!title) return;
   if (state.dialogMode === "notebook") state.notebooks.unshift({ id: uid(), title, pages: [] });
-  else currentNotebook().pages.push({ id: uid(), title, drawing: [] });
+  else currentNotebook().pages.push({ id: uid(), title, paper: $("pageType").value, drawing: [] });
   save(); $("dialog").classList.add("hidden");
   state.dialogMode === "notebook" ? renderNotebooks() : renderPages();
 };
@@ -149,6 +154,34 @@ document.querySelectorAll("[data-tool]").forEach((button) => button.onclick = ()
   state.tool = button.dataset.tool;
   document.querySelectorAll("[data-tool]").forEach((item) => item.classList.toggle("active", item === button));
 });
+$("exportButton")?.addEventListener("click", () => window.print());
+$("importButton")?.addEventListener("click", () => $("pdfImporter").click());
+$("pdfImporter").addEventListener("change", (event) => {
+  const file = event.target.files?.[0];
+  if (!file || file.type !== "application/pdf") return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    const page = currentPage();
+    if (!page) return;
+    page.pdfData = reader.result;
+    page.paper = "blank";
+    save();
+    renderImportedPDF();
+  };
+  reader.readAsDataURL(file);
+  event.target.value = "";
+});
+function renderImportedPDF() {
+  const existing = $("paperWrap").querySelector(".pdf-preview");
+  if (existing) existing.remove();
+  const pdfData = currentPage()?.pdfData;
+  if (!pdfData) return;
+  const preview = document.createElement("iframe");
+  preview.className = "pdf-preview";
+  preview.title = "תצוגה מקדימה של PDF";
+  preview.src = pdfData;
+  $("paperWrap").prepend(preview);
+}
 $("clearButton").onclick = () => { state.drawing = []; redraw(); const page = currentPage(); if (page) { page.drawing = []; save(); } };
 canvas.addEventListener("pointerdown", beginStroke);
 canvas.addEventListener("pointermove", continueStroke);
