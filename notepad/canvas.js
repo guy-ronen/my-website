@@ -1,4 +1,4 @@
-קלטלאידוע·מחיקה(() => {
+קלטלאידוע·מחיקהקלטלאידוע·מחיקה(() => {
   const canvas = document.getElementById("drawingCanvas");
   const context = canvas.getContext("2d");
   const state = window.notePadState;
