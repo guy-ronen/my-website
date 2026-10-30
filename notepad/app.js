@@ -8,11 +8,9 @@ const state = {
   drawing: [],
   activeStroke: null
 };
+window.notePadState = state;
 
 const $ = (id) => document.getElementById(id);
-const canvas = $("drawingCanvas");
-const context = canvas.getContext("2d");
-
 function uid() {
   return crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`;
 }
@@ -23,6 +21,8 @@ function load() {
 function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state.notebooks)); }
 function currentNotebook() { return state.notebooks.find((item) => item.id === state.notebookId); }
 function currentPage() { return currentNotebook()?.pages.find((item) => item.id === state.pageId); }
+state.save = save;
+state.currentPage = currentPage;
 function show(screen) {
   ["notebooksScreen", "pagesScreen", "editorScreen"].forEach((id) => $(id).classList.toggle("hidden", id !== screen));
   $("backButton").classList.toggle("hidden", screen === "notebooksScreen");
@@ -74,7 +74,7 @@ function openPage(id) {
   $("paperWrap").classList.toggle("imported-pdf", Boolean(currentPage()?.pdfData));
   renderImportedPDF();
   show("editorScreen");
-  requestAnimationFrame(resizeCanvas);
+  requestAnimationFrame(() => window.notePadCanvas?.resize());
 }
 function addItem() {
   state.dialogMode = state.notebookId ? "page" : "notebook";
@@ -85,56 +85,6 @@ function addItem() {
   $("itemName").value = "";
   $("dialog").classList.remove("hidden");
   setTimeout(() => $("itemName").focus(), 0);
-}
-function resizeCanvas() {
-  if ($("editorScreen").classList.contains("hidden")) return;
-  const rect = canvas.getBoundingClientRect();
-  const ratio = window.devicePixelRatio || 1;
-  canvas.width = Math.max(1, Math.floor(rect.width * ratio));
-  canvas.height = Math.max(1, Math.floor(rect.height * ratio));
-  context.setTransform(ratio, 0, 0, ratio, 0, 0);
-  context.lineCap = "round"; context.lineJoin = "round";
-  redraw();
-}
-function redraw() {
-  const rect = canvas.getBoundingClientRect();
-  context.clearRect(0, 0, rect.width, rect.height);
-  state.drawing.forEach((stroke) => drawStroke(stroke));
-}
-function drawStroke(stroke) {
-  if (stroke.points.length < 1) return;
-  context.save();
-  context.globalCompositeOperation = stroke.tool === "eraser" ? "destination-out" : "source-over";
-  context.strokeStyle = stroke.color;
-  context.lineWidth = stroke.width;
-  context.beginPath();
-  context.moveTo(stroke.points[0].x, stroke.points[0].y);
-  stroke.points.slice(1).forEach((point) => context.lineTo(point.x, point.y));
-  if (stroke.points.length === 1) context.lineTo(stroke.points[0].x + 0.1, stroke.points[0].y + 0.1);
-  context.stroke(); context.restore();
-}
-function pointFromEvent(event) {
-  const rect = canvas.getBoundingClientRect();
-  return { x: event.clientX - rect.left, y: event.clientY - rect.top, pressure: event.pressure || 0.5 };
-}
-function beginStroke(event) {
-  if (event.pointerType === "mouse" && event.button !== 0) return;
-  canvas.setPointerCapture(event.pointerId);
-  const point = pointFromEvent(event);
-  state.activeStroke = { tool: state.tool, color: $("colorPicker").value, width: Number($("widthPicker").value) * (0.65 + point.pressure), points: [point] };
-  state.drawing.push(state.activeStroke);
-  drawStroke(state.activeStroke);
-}
-function continueStroke(event) {
-  if (!state.activeStroke) return;
-  state.activeStroke.points.push(pointFromEvent(event));
-  redraw();
-}
-function endStroke() {
-  if (!state.activeStroke) return;
-  const page = currentPage();
-  if (page) { page.drawing = state.drawing; save(); }
-  state.activeStroke = null;
 }
 function escapeHTML(value) { return String(value).replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[char]); }
 
@@ -184,11 +134,11 @@ function renderImportedPDF() {
   preview.src = pdfData;
   $("paperWrap").prepend(preview);
 }
-$("clearButton").onclick = () => { state.drawing = []; redraw(); const page = currentPage(); if (page) { page.drawing = []; save(); } };
-canvas.addEventListener("pointerdown", beginStroke);
-canvas.addEventListener("pointermove", continueStroke);
-canvas.addEventListener("pointerup", endStroke);
-canvas.addEventListener("pointercancel", endStroke);
-window.addEventListener("resize", resizeCanvas);
+$("clearButton").onclick = () => {
+  state.drawing = [];
+  window.notePadCanvas?.redraw();
+  const page = currentPage();
+  if (page) { page.drawing = []; save(); }
+};
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(console.error);
 renderNotebooks();
